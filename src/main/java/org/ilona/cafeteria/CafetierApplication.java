@@ -1,4 +1,4 @@
-package org.ilona.cafetier;
+package org.ilona.cafeteria;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
