@@ -8,4 +8,8 @@ public interface PersonnePortIn {
     PersonneDto ajouterUnePersonne(PersonneDto personneDto);
 
     List<PersonneDto> getToutesLesPersonnes();
+
+    void getSupprimerUnePersonne(PersonneDto personneDto);
+
+    void getMiseAjourUnePersonne(PersonneDto personneDto);
 }

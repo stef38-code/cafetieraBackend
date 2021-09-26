@@ -6,8 +6,11 @@ import org.ilona.cafeteria.application.port.out.PersonnePortOut;
 import org.ilona.cafeteria.application.port.out.jpa.entities.PersonneJpaEntity;
 import org.ilona.cafeteria.application.port.out.jpa.mapper.PersonneJpaEntityMapper;
 import org.ilona.cafeteria.application.port.out.jpa.repository.PersonneRepository;
+import org.ilona.cafeteria.domaine.business.PersonneBusiness;
+import org.ilona.cafeteria.domaine.entities.Personne;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,15 +21,17 @@ public class PersonneAdapterOut implements PersonnePortOut {
 
     @Override
     public PersonneDto ajouterUnePersonne(PersonneDto personneDto){
-        PersonneJpaEntity personneJpaEntity = personneMapper.toPersonneJpaEntity(personneDto);
-        personneJpaEntity = personneRepository.save(personneJpaEntity);
-        return personneMapper.toPersonneDto(personneJpaEntity);
+        PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
+        Personne personne = personneMapper.toPersonne(personneDto);
+        personne = business.getAjouterUnePersonne(personne);
+        return personneMapper.toPersonneDto(personne);
     }
 
     @Override
+    @Transactional
     public List<PersonneDto> toutesLesPersonnes() {
-        List<PersonneJpaEntity> all = personneRepository.findAll();
-        return personneMapper.toCollectionDePersonneDto(all);
+        PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
+        return personneMapper.withBusinesstoCollectionDePersonneDto(business.getToutesLesPersonnes());
     }
 
 }

@@ -2,7 +2,7 @@ package org.ilona.cafeteria.application.port.out.jpa.mapper;
 
 import org.ilona.cafeteria.application.port.in.entities.TicketDto;
 import org.ilona.cafeteria.application.port.out.jpa.entities.TicketJpaEntity;
-import org.ilona.cafeteria.domaine.Ticket;
+import org.ilona.cafeteria.domaine.entities.Ticket;
 import org.mapstruct.Mapper;
 
 import java.util.List;

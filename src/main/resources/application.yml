@@ -11,24 +11,30 @@ spring:
   # Database
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:cafeteria;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:./cafeteria;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
     username: postgres
     password: J1cpt@adm
+
   # JPA properties
   jpa:
     hibernate:
-      ddl-auto: create # When you launch the application for the first time - switch "none" at "create"
+      # When you launch the application for the first time - switch "none" at "create"
+      #Hibernate ddl auto (create, create-drop, update)
+      ddl-auto: update
     show-sql: true
     database: h2
     database-platform: org.hibernate.dialect.H2Dialect
     open-in-view: false
     generate-ddl: true
+  #sql:
+  #  init:
+  #    data-locations:classpath:data.sql
 # Logger configuration
 logging:
   pattern:
     console: "%d %-5level %logger : %msg%n"
   level:
-    org.springframework: info
+    org.springframework: debug
     org.hibernate: debug
 #----------------------------
 # Server configuration

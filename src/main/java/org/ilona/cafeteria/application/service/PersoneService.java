@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.ilona.cafeteria.application.port.in.PersonnePortIn;
 import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
 import org.ilona.cafeteria.application.port.out.PersonnePortOut;
-import org.ilona.cafeteria.domaine.Personne;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,5 +21,15 @@ public class PersoneService implements PersonnePortIn {
     @Override
     public List<PersonneDto> getToutesLesPersonnes() {
         return personnePortOut.toutesLesPersonnes();
+    }
+
+    @Override
+    public void getSupprimerUnePersonne(PersonneDto personneDto) {
+
+    }
+
+    @Override
+    public void getMiseAjourUnePersonne(PersonneDto personneDto) {
+
     }
 }
