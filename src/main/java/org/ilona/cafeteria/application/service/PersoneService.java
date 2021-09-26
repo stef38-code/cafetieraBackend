@@ -14,22 +14,22 @@ public class PersoneService implements PersonnePortIn {
     private final PersonnePortOut personnePortOut;
 
     @Override
-    public PersonneDto ajouterUnePersonne(PersonneDto personneDto) {
-        return personnePortOut.ajouterUnePersonne(personneDto);
+    public PersonneDto enregistrer(PersonneDto personneDto) {
+        return personnePortOut.enregistrer(personneDto);
     }
 
     @Override
-    public List<PersonneDto> getToutesLesPersonnes() {
-        return personnePortOut.toutesLesPersonnes();
+    public List<PersonneDto> toutes() {
+        return personnePortOut.toutes();
     }
 
     @Override
-    public void getSupprimerUnePersonne(PersonneDto personneDto) {
-
+    public void supprimer(PersonneDto personneDto) {
+        personnePortOut.supprimer(personneDto);
     }
 
     @Override
-    public void getMiseAjourUnePersonne(PersonneDto personneDto) {
-
+    public void miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto) {
+        personnePortOut.miseAjour(anciennePersonneDto, nouvellePersonneDto);
     }
 }

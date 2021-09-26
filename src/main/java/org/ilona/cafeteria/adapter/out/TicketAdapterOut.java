@@ -17,14 +17,14 @@ public class TicketAdapterOut implements TicketPortOut {
     private final TicketJpaEntityMapper ticketJpaEntityMapper;
 
     @Override
-    public TicketDto ajouterUnTicket(TicketDto ticketDto){
+    public TicketDto enregistrer(TicketDto ticketDto){
         TicketJpaEntity ticketJpaEntity = ticketJpaEntityMapper.toTicketJpaEntity(ticketDto);
         ticketJpaEntity = ticketRepository.save(ticketJpaEntity);
         return ticketJpaEntityMapper.toTicketDto(ticketJpaEntity);
     }
 
     @Override
-    public List<TicketDto> toutesLesTickets() {
+    public List<TicketDto> tous() {
         List<TicketJpaEntity> all = ticketRepository.findAll();
         return ticketJpaEntityMapper.toCollectionDeTicketDto(all);
     }

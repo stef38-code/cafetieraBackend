@@ -1,22 +1,25 @@
 package org.ilona.cafeteria.application.port.out.jpa.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.*;
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@EqualsAndHashCode
 @Entity
-@Table(name = "personne")
+@Table(name = "personne",
+indexes = {
+        @Index(name = "uniquePersonne", columnList = "nom, prenom,numero", unique = true)
+})
 public class PersonneJpaEntity  {
     @Id
     @GeneratedValue(generator="system-uuid")
@@ -24,13 +27,18 @@ public class PersonneJpaEntity  {
     private String id;
 
     @Column(name = "nom")
+    @NotBlank(message = "Le nom est obligatoire")
     private String nom;
+
+
     @Column(name = "prenom")
+    @NotBlank(message = "Le prenom est obligatoire")
     private String prenom;
 
     @Column(name = "numero")
+    @NotBlank(message = "Le numero est obligatoire")
     private String numero;
 
-    @OneToMany(mappedBy = "fk_personne")
+    @OneToMany(mappedBy = "fk_personne",fetch=FetchType.EAGER)
     private List<TicketJpaEntity> tickets = new ArrayList<>();
 }
