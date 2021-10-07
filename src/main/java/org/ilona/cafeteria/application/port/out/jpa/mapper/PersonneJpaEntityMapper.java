@@ -4,21 +4,26 @@ import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
 import org.ilona.cafeteria.application.port.out.jpa.entities.PersonneJpaEntity;
 import org.ilona.cafeteria.domaine.entities.Personne;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 
-@Mapper(componentModel = "spring",uses = {TicketJpaEntityMapper.class})
+@Mapper(componentModel = "spring",uses = {TicketJpaEntityMapper.class,TicketMapperHelper.class})
 public interface  PersonneJpaEntityMapper {
-    Personne toPersonne(PersonneJpaEntity personneJpaEntity);
     Personne toPersonne(PersonneDto personneDto);
+
+    Personne toPersonne(PersonneJpaEntity personneJpaEntity);
+    List<Personne> toCollectionPersonne(List<PersonneJpaEntity> PersonneJpaEntities);
+
     PersonneJpaEntity toPersonneJpaEntity(Personne personne);
+
     PersonneJpaEntity toPersonneJpaEntity(PersonneDto personneDto);
 
-    PersonneDto toPersonneDto(PersonneJpaEntity personneJpaEntity);
+    @Mapping( target = "nombreTicket",source="tickets", qualifiedByName = "compteLesTickets")
     PersonneDto toPersonneDto(Personne personne);
-    List<PersonneDto> withJpaToCollectionDePersonneDto(List<PersonneJpaEntity> PersonneJpaEntities);
+    PersonneDto toPersonneDto(PersonneJpaEntity personneJpaEntity);
     List<PersonneDto> withBusinesstoCollectionDePersonneDto(List<Personne> Personne);
+    List<PersonneDto> withJpaToCollectionDePersonneDto(List<PersonneJpaEntity> PersonneJpaEntities);
 
-    List<Personne> toCollectionPersonne(List<PersonneJpaEntity> PersonneJpaEntities);
 }

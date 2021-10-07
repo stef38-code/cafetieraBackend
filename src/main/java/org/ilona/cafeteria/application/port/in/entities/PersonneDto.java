@@ -19,4 +19,5 @@ public class PersonneDto {
     @NotBlank(message = "Le identifiant de l'eleve est obligatoire")
     private String numero;
     private List<TicketDto> tickets = new ArrayList<>();
+    private int nombreTicket;
 }
