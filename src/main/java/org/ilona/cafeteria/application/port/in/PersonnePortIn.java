@@ -12,4 +12,6 @@ public interface PersonnePortIn {
     void supprimer(PersonneDto personneDto);
 
     void miseAjour(PersonneDto anciennnePersonneDto, PersonneDto nouvellePersonneDto);
+
+    PersonneDto unePersonne(String id);
 }

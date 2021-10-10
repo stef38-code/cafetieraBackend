@@ -1,11 +1,13 @@
 package org.ilona.cafeteria.domaine.business;
 
+import org.ilona.cafeteria.application.port.out.jpa.entities.PersonneJpaEntity;
 import org.ilona.cafeteria.application.port.out.jpa.mapper.PersonneJpaEntityMapper;
 import org.ilona.cafeteria.application.port.out.jpa.repository.PersonneRepository;
 import org.ilona.cafeteria.domaine.entities.Personne;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 public class PersonneBusiness {
   private final PersonneRepository repository;
@@ -44,6 +46,7 @@ public class PersonneBusiness {
 
   /**
    * Recherche l'id depuis une personne
+   *
    * @param personne la personne
    * @return la clef
    */
@@ -55,5 +58,12 @@ public class PersonneBusiness {
                 personne.getNom(), personne.getPrenom(), personne.getNumero()));
 
     return personneInDb.getId();
+  }
+
+  public Personne unePersonne(String id) {
+
+    Optional<PersonneJpaEntity> byId = repository.findById(id);
+
+    return mapper.toPersonne(byId.orElse(null));
   }
 }

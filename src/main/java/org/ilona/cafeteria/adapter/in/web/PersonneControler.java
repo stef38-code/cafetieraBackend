@@ -2,6 +2,7 @@ package org.ilona.cafeteria.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import org.ilona.cafeteria.application.port.in.PersonnePortIn;
+import org.ilona.cafeteria.application.port.in.entities.PersonResource;
 import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
 import org.ilona.cafeteria.application.port.in.entities.PersonneEntityController;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,6 +32,13 @@ public class PersonneControler {
   @Cacheable("personnes")
   public ResponseEntity<Collection<PersonneDto>> getToutesLesPersonnes() {
     return new ResponseEntity<>(personnePortIn.toutes(), HttpStatus.OK);
+  }
+  @GetMapping("/{id}")
+  public ResponseEntity<PersonneDto> get(@PathVariable final String id) {
+    PersonneDto personne = personnePortIn.unePersonne(id);
+
+    PersonResource resource = new PersonResource(personne);
+    return ResponseEntity.ok(resource.addLink(id));
   }
 
   @DeleteMapping

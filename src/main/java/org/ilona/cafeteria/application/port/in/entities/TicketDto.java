@@ -1,9 +1,8 @@
 package org.ilona.cafeteria.application.port.in.entities;
 
 import lombok.*;
-import org.ilona.cafeteria.application.port.out.jpa.entities.Montant;
+import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -11,7 +10,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TicketDto {
+public class TicketDto extends RepresentationModel<TicketDto> {
+    private String id;
     @NotNull(message="Le numéro du ticket est obligatoire")
     private String numero;
     @NotNull(message="Le montant du ticket est obligaoire")

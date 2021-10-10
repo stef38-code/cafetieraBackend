@@ -1,6 +1,7 @@
 package org.ilona.cafeteria.application.port.in.entities;
 
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersonneDto {
+public class PersonneDto extends RepresentationModel<PersonneDto> {
+    private String id;
     @NotBlank(message = "Le nom est obligatoire")
     private String nom;
     @NotBlank(message = "Le prénom est obligatoire")

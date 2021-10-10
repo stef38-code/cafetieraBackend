@@ -22,6 +22,10 @@ public interface  PersonneJpaEntityMapper {
 
     @Mapping( target = "nombreTicket",source="tickets", qualifiedByName = "compteLesTickets")
     PersonneDto toPersonneDto(Personne personne);
+
+
+
+
     PersonneDto toPersonneDto(PersonneJpaEntity personneJpaEntity);
     List<PersonneDto> withBusinesstoCollectionDePersonneDto(List<Personne> Personne);
     List<PersonneDto> withJpaToCollectionDePersonneDto(List<PersonneJpaEntity> PersonneJpaEntities);

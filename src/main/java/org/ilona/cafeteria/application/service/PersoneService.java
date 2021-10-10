@@ -1,6 +1,7 @@
 package org.ilona.cafeteria.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.ilona.cafeteria.application.exceptions.PersoneServiceException;
 import org.ilona.cafeteria.application.port.in.PersonnePortIn;
 import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
 import org.ilona.cafeteria.application.port.out.PersonnePortOut;
@@ -15,7 +16,11 @@ public class PersoneService implements PersonnePortIn {
 
     @Override
     public PersonneDto enregistrer(PersonneDto personneDto) {
+        try{
         return personnePortOut.enregistrer(personneDto);
+        }catch(Exception e){
+            throw new PersoneServiceException("Erreur Enregistrement",e);
+        }
     }
 
     @Override
@@ -31,5 +36,10 @@ public class PersoneService implements PersonnePortIn {
     @Override
     public void miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto) {
         personnePortOut.miseAjour(anciennePersonneDto, nouvellePersonneDto);
+    }
+
+    @Override
+    public PersonneDto unePersonne(String id) {
+        return personnePortOut.unePersonne(id);
     }
 }

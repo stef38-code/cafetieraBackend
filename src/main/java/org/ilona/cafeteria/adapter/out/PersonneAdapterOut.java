@@ -48,4 +48,10 @@ public class PersonneAdapterOut implements PersonnePortOut {
         return personneMapper.toPersonneDto(business.miseAjour(anciennePersonne,nouvellePersonne));
     }
 
+    @Override
+    public PersonneDto unePersonne(String id) {
+        PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
+        return personneMapper.toPersonneDto(business.unePersonne(id));
+    }
+
 }

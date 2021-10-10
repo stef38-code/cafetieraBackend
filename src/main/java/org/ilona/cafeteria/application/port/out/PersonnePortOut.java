@@ -5,10 +5,13 @@ import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
 import java.util.List;
 
 public interface PersonnePortOut {
- PersonneDto enregistrer(PersonneDto personneDto);
- List<PersonneDto> toutes();
+  PersonneDto enregistrer(PersonneDto personneDto);
 
- void supprimer(PersonneDto personneDto);
+  List<PersonneDto> toutes();
 
- PersonneDto miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto);
+  void supprimer(PersonneDto personneDto);
+
+  PersonneDto miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto);
+
+  PersonneDto unePersonne(String id);
 }
