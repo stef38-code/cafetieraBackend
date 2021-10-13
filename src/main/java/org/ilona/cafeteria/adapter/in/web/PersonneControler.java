@@ -24,36 +24,35 @@ public class PersonneControler {
 
   @PostMapping
   @CacheEvict(value="personnes", allEntries=true)
-  public ResponseEntity<PersonneDto> ajoutUnePersonne(@RequestBody PersonneDto personneDto) {
+  public ResponseEntity<PersonneDto> enregistrer(@RequestBody PersonneDto personneDto) {
     return new ResponseEntity<>(personnePortIn.enregistrer(personneDto), HttpStatus.OK);
   }
 
   @GetMapping
   @Cacheable("personnes")
-  public ResponseEntity<Collection<PersonneDto>> getToutesLesPersonnes() {
-    return new ResponseEntity<>(personnePortIn.toutes(), HttpStatus.OK);
+  public ResponseEntity<Collection<PersonneDto>> lister() {
+    return new ResponseEntity<>(personnePortIn.lister(), HttpStatus.OK);
   }
   @GetMapping("/{id}")
-  public ResponseEntity<PersonneDto> get(@PathVariable final String id) {
-    PersonneDto personne = personnePortIn.unePersonne(id);
-
-    PersonResource resource = new PersonResource(personne);
-    return ResponseEntity.ok(resource.addLink(id));
+  public ResponseEntity<PersonneDto> editer(@PathVariable final String id) {
+    PersonneDto personne = personnePortIn.editer(id);
+    PersonResource.addLinkByRef(personne);
+    return ResponseEntity.ok( personne);
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   @CacheEvict(value="personnes", allEntries=true)
-  public ResponseEntity<Void> getSupprimerUnePersonne(@RequestBody PersonneDto personneDto) {
-    personnePortIn.supprimer(personneDto);
+  public ResponseEntity<Void> supprimer(@PathVariable final String id) {
+    personnePortIn.supprimer(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PutMapping
   @ResponseStatus(HttpStatus.OK)
   @CacheEvict(value="personnes", allEntries=true)
-  public ResponseEntity<Void> getMiseAjourUnePersonne(@RequestBody PersonneEntityController entityController) {
-    personnePortIn.miseAjour(entityController.getAnciennePersonne(),entityController.getNouvellePersonne());
+  public ResponseEntity<Void> modifier(@RequestBody PersonneEntityController entityController) {
+    personnePortIn.modifier(entityController.getAnciennePersonne(),entityController.getNouvellePersonne());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }

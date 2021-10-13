@@ -14,12 +14,27 @@ public class TicketService implements TicketPortIn {
     private final TicketPortOut ticketPortOut;
 
     @Override
-    public TicketDto ajouterUnTicket(TicketDto ticketDto) {
+    public TicketDto enregistrer(TicketDto ticketDto) {
         return ticketPortOut.enregistrer(ticketDto);
     }
 
     @Override
     public List<TicketDto> getTousLesTickets() {
-        return ticketPortOut.tous();
+        return ticketPortOut.lister();
+    }
+
+    @Override
+    public TicketDto editer(String id) {
+        return ticketPortOut.editer( id);
+    }
+
+    @Override
+    public void supprimer(String id) {
+        ticketPortOut.supprimer( id);
+    }
+
+    @Override
+    public void modifier(TicketDto ancienTicket, TicketDto nouveauTicket) {
+        ticketPortOut.modifier( ancienTicket,  nouveauTicket);
     }
 }

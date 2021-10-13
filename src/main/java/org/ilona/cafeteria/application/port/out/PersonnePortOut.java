@@ -7,11 +7,11 @@ import java.util.List;
 public interface PersonnePortOut {
   PersonneDto enregistrer(PersonneDto personneDto);
 
-  List<PersonneDto> toutes();
+  List<PersonneDto> lister();
 
-  void supprimer(PersonneDto personneDto);
+  void supprimer(String id);
 
-  PersonneDto miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto);
+  PersonneDto modifier(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto);
 
-  PersonneDto unePersonne(String id);
+  PersonneDto editer(String id);
 }

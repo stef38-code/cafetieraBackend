@@ -18,7 +18,7 @@ public class PersonneBusiness {
     this.mapper = mapper;
   }
 
-  public List<Personne> toutes() {
+  public List<Personne> lister() {
     return mapper.toCollectionPersonne(repository.findAll());
   }
 
@@ -38,7 +38,7 @@ public class PersonneBusiness {
     repository.delete(mapper.toPersonneJpaEntity(personne));
   }
 
-  public Personne miseAjour(Personne anciennePersonne, Personne nouvellePersonne) {
+  public Personne modifier(Personne anciennePersonne, Personne nouvellePersonne) {
     // Affection de l'ID
     nouvellePersonne.setId(getId(anciennePersonne));
     return mapper.toPersonne(repository.save(mapper.toPersonneJpaEntity(nouvellePersonne)));
@@ -60,7 +60,7 @@ public class PersonneBusiness {
     return personneInDb.getId();
   }
 
-  public Personne unePersonne(String id) {
+  public Personne editer(String id) {
 
     Optional<PersonneJpaEntity> byId = repository.findById(id);
 

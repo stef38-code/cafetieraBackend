@@ -6,5 +6,10 @@ import java.util.List;
 
 public interface TicketPortOut {
  TicketDto enregistrer(TicketDto ticketDto);
- List<TicketDto> tous();
+ List<TicketDto> lister();
+ TicketDto editer(String id);
+
+ void supprimer(String id);
+
+ TicketDto modifier(TicketDto ancienTicket, TicketDto nouveauTicket);
 }

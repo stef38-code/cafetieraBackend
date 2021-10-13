@@ -1,27 +1,27 @@
 package org.ilona.cafeteria.application.port.in.entities;
 
-import org.ilona.cafeteria.adapter.in.web.PersonneControler;
+import org.ilona.cafeteria.adapter.in.web.TicketControler;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
-public class PersonResource{
+public class TicketResource {
 
 
 
-    private static void addLinks(PersonneDto obj,String id) {
+    private static void addLinks(TicketDto obj,String id) {
         if(Boolean.FALSE.equals(obj.hasLinks())){
-        Link link = WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).editer(id)).withSelfRel().withType("GET");
+        Link link = WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).get(id)).withSelfRel().withType("GET");
         obj.add(link);
-        obj.add(WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).supprimer(id)).withRel("supprimer").withType("DELETE"));
-        obj.add(WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).lister()).withRel("lister").withType("GET"));
+        obj.add(WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).supprimer(id)).withRel("supprimer").withType("DELETE"));
+        obj.add(WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).lister()).withRel("tickets").withType("GET"));
     }
         }
 
-    public static void addLinkByRef(PersonneDto personneDto) {
-        addLinks(personneDto,personneDto.getId());
+    public static void addLinkByRef(TicketDto ticketDto) {
+        addLinks(ticketDto,ticketDto.getId());
     }
   /*    public PersonResource(PersonneDto personne) {
 

@@ -16,4 +16,12 @@ public interface TicketJpaEntityMapper {
 
     TicketDto toTicketDto(TicketJpaEntity ticketJpaEntity);
     List<TicketDto> toCollectionDeTicketDto(List<TicketJpaEntity> TicketJpaEntities);
+
+    List<Ticket> toCollectionTicket(List<TicketJpaEntity> all);
+
+    TicketDto toTicketDto(Ticket ticket);
+
+    Ticket toTicket(TicketDto ticketDto);
+
+    List<TicketDto> withBusinesstoCollectionDeTicketDto(List<Ticket> lister);
 }

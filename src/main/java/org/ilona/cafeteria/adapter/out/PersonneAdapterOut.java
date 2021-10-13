@@ -28,30 +28,30 @@ public class PersonneAdapterOut implements PersonnePortOut {
 
     @Override
     @Transactional
-    public List<PersonneDto> toutes() {
+    public List<PersonneDto> lister() {
         PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
-        return personneMapper.withBusinesstoCollectionDePersonneDto(business.toutes());
+        return personneMapper.withBusinesstoCollectionDePersonneDto(business.lister());
     }
 
     @Override
-    public void supprimer(PersonneDto personneDto) {
+    public void supprimer(String id) {
         PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
-        Personne personne = personneMapper.toPersonne(personneDto);
+        Personne personne = business.editer(id);
         business.supprimer(personne);
     }
 
     @Override
-    public PersonneDto miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto) {
+    public PersonneDto modifier(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto) {
         PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
         Personne anciennePersonne= personneMapper.toPersonne(anciennePersonneDto);
         Personne nouvellePersonne= personneMapper.toPersonne(nouvellePersonneDto);
-        return personneMapper.toPersonneDto(business.miseAjour(anciennePersonne,nouvellePersonne));
+        return personneMapper.toPersonneDto(business.modifier(anciennePersonne,nouvellePersonne));
     }
 
     @Override
-    public PersonneDto unePersonne(String id) {
+    public PersonneDto editer(String id) {
         PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
-        return personneMapper.toPersonneDto(business.unePersonne(id));
+        return personneMapper.toPersonneDto(business.editer(id));
     }
 
 }
