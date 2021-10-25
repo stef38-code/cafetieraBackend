@@ -2,9 +2,9 @@ package org.ilona.cafeteria.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import org.ilona.cafeteria.application.port.in.PersonnePortIn;
-import org.ilona.cafeteria.application.port.in.entities.PersonResource;
 import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
 import org.ilona.cafeteria.application.port.in.entities.PersonneEntityController;
+import org.ilona.cafeteria.application.port.in.entities.PersonneResource;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class PersonneControler {
   private final PersonnePortIn personnePortIn;
 
   @PostMapping
-  @CacheEvict(value="personnes", allEntries=true)
+  @CacheEvict(value = "personnes", allEntries = true)
   public ResponseEntity<PersonneDto> enregistrer(@RequestBody PersonneDto personneDto) {
     return new ResponseEntity<>(personnePortIn.enregistrer(personneDto), HttpStatus.OK);
   }
@@ -33,16 +33,18 @@ public class PersonneControler {
   public ResponseEntity<Collection<PersonneDto>> lister() {
     return new ResponseEntity<>(personnePortIn.lister(), HttpStatus.OK);
   }
+
   @GetMapping("/{id}")
   public ResponseEntity<PersonneDto> editer(@PathVariable final String id) {
     PersonneDto personne = personnePortIn.editer(id);
-    PersonResource.addLinkByRef(personne);
-    return ResponseEntity.ok( personne);
+    PersonneResource.addLinkByRef(personne);
+    return ResponseEntity.ok(personne);
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  @CacheEvict(value="personnes", allEntries=true)
+  @CacheEvict(value = "personnes", allEntries = true)
+  @CrossOrigin(origins = "http://localhost:4200")
   public ResponseEntity<Void> supprimer(@PathVariable final String id) {
     personnePortIn.supprimer(id);
     return new ResponseEntity<>(HttpStatus.OK);
@@ -50,9 +52,10 @@ public class PersonneControler {
 
   @PutMapping
   @ResponseStatus(HttpStatus.OK)
-  @CacheEvict(value="personnes", allEntries=true)
+  @CacheEvict(value = "personnes", allEntries = true)
   public ResponseEntity<Void> modifier(@RequestBody PersonneEntityController entityController) {
-    personnePortIn.modifier(entityController.getAnciennePersonne(),entityController.getNouvellePersonne());
+    personnePortIn.modifier(
+        entityController.getAnciennePersonne(), entityController.getNouvellePersonne());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }

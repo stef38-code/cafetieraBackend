@@ -3,8 +3,9 @@ package org.ilona.cafeteria.application.service;
 import lombok.RequiredArgsConstructor;
 import org.ilona.cafeteria.application.exceptions.PersoneServiceException;
 import org.ilona.cafeteria.application.port.in.PersonnePortIn;
-import org.ilona.cafeteria.application.port.in.entities.PersonResource;
+import org.ilona.cafeteria.application.port.in.entities.CategorieResource;
 import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
+import org.ilona.cafeteria.application.port.in.entities.PersonneResource;
 import org.ilona.cafeteria.application.port.in.entities.TicketResource;
 import org.ilona.cafeteria.application.port.out.PersonnePortOut;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,13 @@ public class PersoneService implements PersonnePortIn {
   @Override
   public List<PersonneDto> lister() {
     List<PersonneDto> personnes = personnePortOut.lister();
-    PersonResource resource = new PersonResource();
-    personnes.forEach(personne -> {
-      resource.addLinkByRef(personne);
-      personne.getTickets().forEach( ticket -> TicketResource.addLinkByRef(ticket));
-    });
+    PersonneResource resource = new PersonneResource();
+    personnes.forEach(
+        personne -> {
+          resource.addLinkByRef(personne);
+          personne.getTickets().forEach(ticket -> TicketResource.addLinkByRef(ticket));
+          CategorieResource.addLinkByRef(personne.getCategorie());
+        });
     return personnes;
   }
 
@@ -49,8 +52,9 @@ public class PersoneService implements PersonnePortIn {
   @Override
   public PersonneDto editer(String id) {
     PersonneDto personne = personnePortOut.editer(id);
-    PersonResource.addLinkByRef(personne);
+    PersonneResource.addLinkByRef(personne);
     personne.getTickets().forEach(ticket -> TicketResource.addLinkByRef(ticket));
+    CategorieResource.addLinkByRef(personne.getCategorie());
     return personne;
   }
 }

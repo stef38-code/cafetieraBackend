@@ -6,23 +6,29 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+public class PersonneResource {
 
-public class PersonResource{
-
-
-
-    private static void addLinks(PersonneDto obj,String id) {
-        if(Boolean.FALSE.equals(obj.hasLinks())){
-        Link link = WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).editer(id)).withSelfRel().withType("GET");
-        obj.add(link);
-        obj.add(WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).supprimer(id)).withRel("supprimer").withType("DELETE"));
-        obj.add(WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).lister()).withRel("lister").withType("GET"));
+  private static void addLinks(PersonneDto obj, String id) {
+    if (Boolean.FALSE.equals(obj.hasLinks())) {
+      Link link =
+          WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).editer(id))
+              .withSelfRel()
+              .withType("GET");
+      obj.add(link);
+      obj.add(
+          WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).supprimer(id))
+              .withRel("supprimer")
+              .withType("DELETE"));
+      obj.add(
+          WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).lister())
+              .withRel("lister")
+              .withType("GET"));
     }
-        }
+  }
 
-    public static void addLinkByRef(PersonneDto personneDto) {
-        addLinks(personneDto,personneDto.getId());
-    }
+  public static void addLinkByRef(PersonneDto personneDto) {
+    addLinks(personneDto, personneDto.getId());
+  }
   /*    public PersonResource(PersonneDto personne) {
 
       this.personne = personne;
@@ -31,7 +37,7 @@ public class PersonResource{
       //add(linkTo(methodOn(GymMembershipController.class).all(id)).withRel("memberships"));
       //add(linkTo(methodOn(PersonneControler.class).get(id)).withSelfRel());
   }*/
-/*  @Override
+  /*  @Override
   public PersonneDto addLink(String id) {
     Link link = WebMvcLinkBuilder.linkTo(methodOn(PersonneControler.class).get(id)).withSelfRel();
     getObj().add(link);

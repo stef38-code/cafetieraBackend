@@ -13,13 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PersonneDto extends RepresentationModel<PersonneDto> {
-    private String id;
-    @NotBlank(message = "Le nom est obligatoire")
-    private String nom;
-    @NotBlank(message = "Le prénom est obligatoire")
-    private String prenom;
-    @NotBlank(message = "Le identifiant de l'eleve est obligatoire")
-    private String numero;
-    private List<TicketDto> tickets = new ArrayList<>();
-    private int nombreTicket;
+  private String id;
+
+  @NotBlank(message = "Le nom est obligatoire")
+  private String nom;
+
+  @NotBlank(message = "Le prénom est obligatoire")
+  private String prenom;
+
+  private List<TicketDto> tickets = new ArrayList<>();
+  private int nombreTicket;
+  private CategorieDto categorie;
 }

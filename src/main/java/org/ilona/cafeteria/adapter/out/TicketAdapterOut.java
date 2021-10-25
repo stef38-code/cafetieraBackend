@@ -14,43 +14,50 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class TicketAdapterOut implements TicketPortOut {
-    private final TicketRepository ticketRepository;
-    private final TicketJpaEntityMapper ticketMapper;
+  private final TicketRepository ticketRepository;
+  private final TicketJpaEntityMapper ticketMapper;
 
-    @Override
-    public TicketDto enregistrer(TicketDto ticketDto){
-        TicketBusiness business = new TicketBusiness(ticketRepository,ticketMapper);
-        Ticket ticket = ticketMapper.toTicket(ticketDto);
-        ticket = business.enregistrer(ticket);
+  @Override
+  public TicketDto enregistrer(TicketDto ticketDto) {
+    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
+    Ticket ticket = ticketMapper.toTicket(ticketDto);
+    ticket = business.enregistrer(ticket);
 
-        return ticketMapper.toTicketDto(ticket);
-    }
+    return ticketMapper.toTicketDto(ticket);
+  }
 
-    @Override
-    public List<TicketDto> lister() {
-        TicketBusiness business = new TicketBusiness(ticketRepository,ticketMapper);
-        return ticketMapper.withBusinesstoCollectionDeTicketDto(business.lister());
-    }
+  @Override
+  public List<TicketDto> lister() {
+    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
+    return ticketMapper.withBusinesstoCollectionDeTicketDto(business.lister());
+  }
 
-    @Override
-    public TicketDto editer(String id) {
-        TicketBusiness business = new TicketBusiness(ticketRepository,ticketMapper);
-        return ticketMapper.toTicketDto(business.editer(id));
-    }
+  @Override
+  public TicketDto editer(String id) {
+    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
+    return ticketMapper.toTicketDto(business.editer(id));
+  }
 
-    @Override
-    public void supprimer(String id) {
-        TicketBusiness business = new TicketBusiness(ticketRepository,ticketMapper);
-        Ticket ticket = business.editer(id);
-        business.supprimer(ticket);
-    }
+  @Override
+  public void supprimer(String id) {
+    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
+    Ticket ticket = business.editer(id);
+    business.supprimer(ticket);
+  }
 
-    @Override
-    public TicketDto modifier(TicketDto ancienTicketDto, TicketDto nouveauTicketDto) {
-        TicketBusiness business = new TicketBusiness(ticketRepository,ticketMapper);
-        Ticket ancienneTicket= ticketMapper.toTicket(ancienTicketDto);
-        Ticket nouvelleTicket= ticketMapper.toTicket(nouveauTicketDto);
-        return ticketMapper.toTicketDto(business.modifier(ancienneTicket,nouvelleTicket));
-    }
+  @Override
+  public void liberer(String id) {
+    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
+    Ticket ticket = business.editer(id);
+    ticket.setPersonne(null);
+    business.enregistrer(ticket);
+  }
 
+  @Override
+  public TicketDto modifier(TicketDto ancienTicketDto, TicketDto nouveauTicketDto) {
+    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
+    Ticket ancienneTicket = ticketMapper.toTicket(ancienTicketDto);
+    Ticket nouvelleTicket = ticketMapper.toTicket(nouveauTicketDto);
+    return ticketMapper.toTicketDto(business.modifier(ancienneTicket, nouvelleTicket));
+  }
 }

@@ -8,8 +8,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,11 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Entity
 @Table(
-    name = "personne",
-    indexes = {
-      @Index(name = "uniquePersonne", columnList = "nom, prenom,idcategorie", unique = true)
-    })
-public class PersonneJpaEntity {
+    name = "categorie",
+    indexes = {@Index(name = "uniqueCategorie", columnList = "nom", unique = true)})
+public class CategorieJpaEntity {
   @Id
   @GeneratedValue(generator = "system-uuid")
   @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -31,14 +27,6 @@ public class PersonneJpaEntity {
   @NotBlank(message = "Le nom est obligatoire")
   private String nom;
 
-  @Column(name = "prenom")
-  @NotBlank(message = "Le prenom est obligatoire")
-  private String prenom;
-
-  @OneToMany(mappedBy = "fk_personne", fetch = FetchType.EAGER)
-  private List<TicketJpaEntity> tickets = new ArrayList<>();
-
-  @OneToOne
-  @JoinColumn(name = "idcategorie", nullable = true)
-  private CategorieJpaEntity categorie;
+  @Column(name = "libelle")
+  private String libelle;
 }

@@ -2,7 +2,7 @@ package org.ilona.cafeteria.domaine.business;
 
 import org.ilona.cafeteria.application.port.out.jpa.entities.PersonneJpaEntity;
 import org.ilona.cafeteria.application.port.out.jpa.mapper.PersonneJpaEntityMapper;
-import org.ilona.cafeteria.application.port.out.jpa.repository.PersonneRepository;
+import org.ilona.cafeteria.application.port.out.jpa.repository.PersonneJpaRepository;
 import org.ilona.cafeteria.domaine.entities.Personne;
 
 import javax.transaction.Transactional;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class PersonneBusiness {
-  private final PersonneRepository repository;
+  private final PersonneJpaRepository repository;
   private final PersonneJpaEntityMapper mapper;
 
-  public PersonneBusiness(PersonneRepository repository, PersonneJpaEntityMapper mapper) {
+  public PersonneBusiness(PersonneJpaRepository repository, PersonneJpaEntityMapper mapper) {
     this.repository = repository;
     this.mapper = mapper;
   }
@@ -54,8 +54,8 @@ public class PersonneBusiness {
     // recherche de la personne
     Personne personneInDb =
         mapper.toPersonne(
-            repository.findByNomAndPrenomAndNumero(
-                personne.getNom(), personne.getPrenom(), personne.getNumero()));
+            repository.findByNomAndPrenomAndCategorie(
+                personne.getNom(), personne.getPrenom(), personne.getCategorie()));
 
     return personneInDb.getId();
   }

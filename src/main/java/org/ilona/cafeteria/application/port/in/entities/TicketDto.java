@@ -11,9 +11,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Builder
 public class TicketDto extends RepresentationModel<TicketDto> {
-    private String id;
-    @NotNull(message="Le numéro du ticket est obligatoire")
-    private String numero;
-    @NotNull(message="Le montant du ticket est obligaoire")
-    private Integer montant;
+  private String id;
+
+  @NotNull(message = "Le numéro du ticket est obligatoire")
+  private String numero;
+
+  @NotNull(message = "Le montant du ticket est obligaoire")
+  private Integer montant;
+
+  private PersonneDto personne;
 }
