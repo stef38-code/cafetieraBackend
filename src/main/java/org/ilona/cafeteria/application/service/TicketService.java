@@ -9,6 +9,7 @@ import org.ilona.cafeteria.application.port.out.TicketPortOut;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -26,7 +27,8 @@ public class TicketService implements TicketPortIn {
     ticketDtoList.forEach(
         ticketDto -> {
           TicketResource.addLinkByRef(ticketDto);
-          PersonneResource.addLinkByRef(ticketDto.getPersonne());
+          if (Objects.nonNull(ticketDto.getPersonne()))
+            PersonneResource.addLinkByRef(ticketDto.getPersonne());
         });
     return ticketDtoList;
   }
@@ -35,7 +37,8 @@ public class TicketService implements TicketPortIn {
   public TicketDto editer(String id) {
     TicketDto ticketDto = ticketPortOut.editer(id);
     TicketResource.addLinkByRef(ticketDto);
-    PersonneResource.addLinkByRef(ticketDto.getPersonne());
+    if (Objects.nonNull(ticketDto.getPersonne()))
+      PersonneResource.addLinkByRef(ticketDto.getPersonne());
     return ticketDto;
   }
 
