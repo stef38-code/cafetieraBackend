@@ -1,6 +1,6 @@
 package org.ilona.cafeteria.application.port.in;
 
-import org.ilona.cafeteria.application.port.in.entities.CategorieDto;
+import org.ilona.cafeteria.adapter.in.web.entities.CategorieDto;
 
 import java.util.List;
 

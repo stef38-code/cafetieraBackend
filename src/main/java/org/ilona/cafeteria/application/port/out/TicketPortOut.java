@@ -1,19 +1,26 @@
 package org.ilona.cafeteria.application.port.out;
 
-import org.ilona.cafeteria.application.port.in.entities.TicketDto;
+import org.ilona.cafeteria.application.business.entities.Ticket;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TicketPortOut {
-  TicketDto enregistrer(TicketDto ticketDto);
+  Ticket enregistrer(Ticket ticket);
 
-  List<TicketDto> lister();
+  List<Ticket> lister();
 
-  TicketDto editer(String id);
+  Ticket editer(String id);
 
   void supprimer(String id);
 
   void liberer(String id);
 
-  TicketDto modifier(TicketDto ancienTicket, TicketDto nouveauTicket);
+  Ticket modifier(Ticket ancienTicket, Ticket nouveauTicket);
+
+  void supprimer(Ticket ticket);
+
+  Ticket rechercherParId(String id);
+
+  Optional<Ticket> rechercherParIdentifiant(String id);
 }

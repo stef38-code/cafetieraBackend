@@ -1,50 +1,56 @@
 package org.ilona.cafeteria.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.ilona.cafeteria.adapter.in.web.entities.TicketDto;
+import org.ilona.cafeteria.application.business.TicketBusiness;
+import org.ilona.cafeteria.application.business.TicketBusinessImpl;
+import org.ilona.cafeteria.application.business.entities.Ticket;
+import org.ilona.cafeteria.application.mapper.TicketDtoMapper;
+import org.ilona.cafeteria.application.mapper.TicketMapper;
 import org.ilona.cafeteria.application.port.in.TicketPortIn;
-import org.ilona.cafeteria.application.port.in.entities.PersonneResource;
-import org.ilona.cafeteria.application.port.in.entities.TicketDto;
-import org.ilona.cafeteria.application.port.in.entities.TicketResource;
 import org.ilona.cafeteria.application.port.out.TicketPortOut;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
 public class TicketService implements TicketPortIn {
-  private final TicketPortOut ticketPortOut;
+  private final TicketPortOut portOut;
+  private final TicketMapper mapper;
+  private final TicketDtoMapper mapperDto;
 
   @Override
   public TicketDto enregistrer(TicketDto ticketDto) {
-    return ticketPortOut.enregistrer(ticketDto);
+    Ticket ticket = mapper.to(ticketDto); // vient du portIn
+    // traitement Bissness  avec portOut
+    TicketBusiness business = new TicketBusinessImpl(portOut);
+    ticket = business.enregistrer(ticket);
+    // retour vers portIn
+    return mapperDto.to(ticket);
   }
 
   @Override
-  public List<TicketDto> getTousLesTickets() {
-    List<TicketDto> ticketDtoList = ticketPortOut.lister();
-    ticketDtoList.forEach(
-        ticketDto -> {
-          TicketResource.addLinkByRef(ticketDto);
-          if (Objects.nonNull(ticketDto.getPersonne()))
-            PersonneResource.addLinkByRef(ticketDto.getPersonne());
-        });
-    return ticketDtoList;
+  public List<TicketDto> lister() {
+    TicketBusinessImpl business = new TicketBusinessImpl(portOut);
+    List<Ticket> ticketList = business.lister();
+    /* ticketList.forEach(ticketDto -> CategorieResource.addLinkByRef(ticketDto));*/
+    return mapperDto.toCollection(ticketList);
   }
 
   @Override
   public TicketDto editer(String id) {
-    TicketDto ticketDto = ticketPortOut.editer(id);
-    TicketResource.addLinkByRef(ticketDto);
-    if (Objects.nonNull(ticketDto.getPersonne()))
-      PersonneResource.addLinkByRef(ticketDto.getPersonne());
-    return ticketDto;
+    TicketBusinessImpl business = new TicketBusinessImpl(portOut);
+    Ticket ticket = business.editer(id);
+    // CategorieResource.addLinkByRef(categorieDto);
+    return mapperDto.to(ticket);
   }
 
   @Override
   public void supprimer(String id) {
-    ticketPortOut.supprimer(id);
+    TicketBusinessImpl business = new TicketBusinessImpl(portOut);
+    Ticket categorie = business.editer(id);
+    business.supprimer(categorie);
   }
 
   @Override
@@ -52,6 +58,9 @@ public class TicketService implements TicketPortIn {
 
   @Override
   public void modifier(TicketDto ancienTicket, TicketDto nouveauTicket) {
-    ticketPortOut.modifier(ancienTicket, nouveauTicket);
+    Ticket ancienneTicket = mapper.to(ancienTicket);
+    Ticket nouvelleTicket = mapper.to(nouveauTicket);
+    TicketBusinessImpl business = new TicketBusinessImpl(portOut);
+    business.modifier(ancienneTicket, nouvelleTicket);
   }
 }

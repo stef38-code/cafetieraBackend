@@ -1,63 +1,81 @@
 package org.ilona.cafeteria.adapter.out;
 
 import lombok.RequiredArgsConstructor;
-import org.ilona.cafeteria.application.port.in.entities.TicketDto;
+import org.ilona.cafeteria.adapter.out.jpa.entities.TicketJpaEntity;
+import org.ilona.cafeteria.adapter.out.jpa.repository.TicketRepository;
+import org.ilona.cafeteria.application.business.entities.Ticket;
+import org.ilona.cafeteria.application.mapper.TicketJpaEntityMapper;
+import org.ilona.cafeteria.application.mapper.TicketMapper;
 import org.ilona.cafeteria.application.port.out.TicketPortOut;
-import org.ilona.cafeteria.application.port.out.jpa.mapper.TicketJpaEntityMapper;
-import org.ilona.cafeteria.application.port.out.jpa.repository.TicketRepository;
-import org.ilona.cafeteria.domaine.business.TicketBusiness;
-import org.ilona.cafeteria.domaine.entities.Ticket;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class TicketAdapterOut implements TicketPortOut {
-  private final TicketRepository ticketRepository;
-  private final TicketJpaEntityMapper ticketMapper;
+  private final TicketRepository repository;
+  private final TicketJpaEntityMapper mapperEntities;
+  private final TicketMapper mapperBusiness;
 
   @Override
-  public TicketDto enregistrer(TicketDto ticketDto) {
-    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
-    Ticket ticket = ticketMapper.toTicket(ticketDto);
-    ticket = business.enregistrer(ticket);
-
-    return ticketMapper.toTicketDto(ticket);
+  public Ticket enregistrer(Ticket ticket) {
+    TicketJpaEntity ticketJpaEntity = mapperEntities.to(ticket);
+    TicketJpaEntity resultat = repository.save(ticketJpaEntity);
+    return mapperBusiness.to(resultat);
   }
 
   @Override
-  public List<TicketDto> lister() {
-    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
-    return ticketMapper.withBusinesstoCollectionDeTicketDto(business.lister());
+  public List<Ticket> lister() {
+    List<TicketJpaEntity> all = repository.findAll();
+    return mapperBusiness.toCollection(all);
   }
 
   @Override
-  public TicketDto editer(String id) {
-    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
-    return ticketMapper.toTicketDto(business.editer(id));
+  public Ticket editer(String id) {
+    TicketJpaEntity resultat = repository.findById(id).orElse(null);
+    return mapperBusiness.to(resultat);
   }
 
   @Override
   public void supprimer(String id) {
-    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
-    Ticket ticket = business.editer(id);
-    business.supprimer(ticket);
+    Ticket ticket = editer(id);
+    supprimer(ticket);
   }
 
   @Override
   public void liberer(String id) {
-    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
-    Ticket ticket = business.editer(id);
+    Ticket ticket = editer(id);
     ticket.setPersonne(null);
-    business.enregistrer(ticket);
+    enregistrer(ticket);
   }
 
   @Override
-  public TicketDto modifier(TicketDto ancienTicketDto, TicketDto nouveauTicketDto) {
-    TicketBusiness business = new TicketBusiness(ticketRepository, ticketMapper);
-    Ticket ancienneTicket = ticketMapper.toTicket(ancienTicketDto);
-    Ticket nouvelleTicket = ticketMapper.toTicket(nouveauTicketDto);
-    return ticketMapper.toTicketDto(business.modifier(ancienneTicket, nouvelleTicket));
+  public Ticket modifier(Ticket ancienTicket, Ticket nouveauTicket) {
+    nouveauTicket.setId(ancienTicket.getId());
+    TicketJpaEntity ticketJpaEntity = mapperEntities.to(nouveauTicket);
+    TicketJpaEntity resultat = repository.save(ticketJpaEntity);
+    return mapperBusiness.to(resultat);
+  }
+
+  @Override
+  public void supprimer(Ticket ticket) {
+    TicketJpaEntity ticketJpaEntity = mapperEntities.to(ticket);
+    repository.delete(ticketJpaEntity);
+  }
+
+  @Override
+  public Ticket rechercherParId(String id) {
+    TicketJpaEntity resultat = repository.findById(id).orElse(null);
+    return mapperBusiness.to(resultat);
+  }
+
+  @Override
+  public Optional<Ticket> rechercherParIdentifiant(String id) {
+    Optional<TicketJpaEntity> resultat = repository.findById(id);
+    if (resultat.isPresent()) return Optional.of(mapperBusiness.to(resultat.get()));
+
+    return Optional.empty();
   }
 }

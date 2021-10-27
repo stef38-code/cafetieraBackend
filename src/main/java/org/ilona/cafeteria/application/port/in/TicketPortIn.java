@@ -1,13 +1,13 @@
 package org.ilona.cafeteria.application.port.in;
 
-import org.ilona.cafeteria.application.port.in.entities.TicketDto;
+import org.ilona.cafeteria.adapter.in.web.entities.TicketDto;
 
 import java.util.List;
 
 public interface TicketPortIn {
   TicketDto enregistrer(TicketDto ticketDto);
 
-  List<TicketDto> getTousLesTickets();
+  List<TicketDto> lister();
 
   TicketDto editer(String id);
 

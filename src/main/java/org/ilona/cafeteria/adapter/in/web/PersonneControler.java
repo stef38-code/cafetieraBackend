@@ -1,10 +1,10 @@
 package org.ilona.cafeteria.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
+import org.ilona.cafeteria.adapter.in.web.entities.PersonneDto;
+import org.ilona.cafeteria.adapter.in.web.entities.PersonneEntityController;
+import org.ilona.cafeteria.adapter.in.web.entities.PersonneResource;
 import org.ilona.cafeteria.application.port.in.PersonnePortIn;
-import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
-import org.ilona.cafeteria.application.port.in.entities.PersonneEntityController;
-import org.ilona.cafeteria.application.port.in.entities.PersonneResource;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;

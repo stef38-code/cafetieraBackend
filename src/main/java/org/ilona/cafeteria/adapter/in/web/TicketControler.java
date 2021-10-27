@@ -1,10 +1,10 @@
 package org.ilona.cafeteria.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
+import org.ilona.cafeteria.adapter.in.web.entities.TicketDto;
+import org.ilona.cafeteria.adapter.in.web.entities.TicketEntityController;
+import org.ilona.cafeteria.adapter.in.web.entities.TicketResource;
 import org.ilona.cafeteria.application.port.in.TicketPortIn;
-import org.ilona.cafeteria.application.port.in.entities.TicketDto;
-import org.ilona.cafeteria.application.port.in.entities.TicketEntityController;
-import org.ilona.cafeteria.application.port.in.entities.TicketResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public class TicketControler {
 
   @GetMapping
   public ResponseEntity<Collection<TicketDto>> lister() {
-    return new ResponseEntity<>(ticketPortIn.getTousLesTickets(), HttpStatus.OK);
+    return new ResponseEntity<>(ticketPortIn.lister(), HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")

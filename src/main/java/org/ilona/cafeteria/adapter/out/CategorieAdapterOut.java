@@ -1,57 +1,68 @@
 package org.ilona.cafeteria.adapter.out;
 
 import lombok.RequiredArgsConstructor;
-import org.ilona.cafeteria.application.port.in.entities.CategorieDto;
+import org.ilona.cafeteria.adapter.out.jpa.entities.CategorieJpaEntity;
+import org.ilona.cafeteria.adapter.out.jpa.repository.CategorieJpaRepository;
+import org.ilona.cafeteria.application.business.entities.Categorie;
+import org.ilona.cafeteria.application.mapper.CategorieJpaEntityMapper;
+import org.ilona.cafeteria.application.mapper.CategorieMapper;
 import org.ilona.cafeteria.application.port.out.CategoriePortOut;
-import org.ilona.cafeteria.application.port.out.jpa.mapper.CategorieJpaEntityMapper;
-import org.ilona.cafeteria.application.port.out.jpa.repository.CategorieJpaRepository;
-import org.ilona.cafeteria.domaine.business.CategorieBusiness;
-import org.ilona.cafeteria.domaine.entities.Categorie;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class CategorieAdapterOut implements CategoriePortOut {
-  private final CategorieJpaRepository categorieJpaRepository;
-  private final CategorieJpaEntityMapper categorieMapper;
+  private final CategorieJpaRepository repository;
+  private final CategorieJpaEntityMapper mapperEntities;
+  private final CategorieMapper mapperBusiness;
 
   @Override
-  public CategorieDto enregistrer(CategorieDto categorieDto) {
-    CategorieBusiness business = new CategorieBusiness(categorieJpaRepository, categorieMapper);
-    Categorie categorie = categorieMapper.toCategorie(categorieDto);
-    categorie = business.enregistrer(categorie);
-    return categorieMapper.toCategorieDto(categorie);
+  public Categorie enregistrer(Categorie categorie) {
+    CategorieJpaEntity categorieJpaEntity = mapperEntities.to(categorie);
+    CategorieJpaEntity resultat = repository.save(categorieJpaEntity);
+    return mapperBusiness.to(resultat);
   }
 
   @Override
-  @Transactional
-  public List<CategorieDto> lister() {
-    CategorieBusiness business = new CategorieBusiness(categorieJpaRepository, categorieMapper);
-    return categorieMapper.withBusinesstoCollectionDeCategorieDto(business.lister());
+  public List<Categorie> lister() {
+    List<CategorieJpaEntity> all = repository.findAll();
+    return mapperBusiness.toCollection(all);
   }
 
   @Override
-  public void supprimer(String id) {
-    CategorieBusiness business = new CategorieBusiness(categorieJpaRepository, categorieMapper);
-    Categorie categorie = business.editer(id);
-    business.supprimer(categorie);
+  public void supprimer(Categorie categorie) {
+    CategorieJpaEntity categorieJpaEntity = mapperEntities.to(categorie);
+    repository.delete(categorieJpaEntity);
   }
 
   @Override
-  public CategorieDto modifier(
-      CategorieDto ancienneCategorieDto, CategorieDto nouvelleCategorieDto) {
-    CategorieBusiness business = new CategorieBusiness(categorieJpaRepository, categorieMapper);
-    Categorie ancienneCategorie = categorieMapper.toCategorie(ancienneCategorieDto);
-    Categorie nouvelleCategorie = categorieMapper.toCategorie(nouvelleCategorieDto);
-    return categorieMapper.toCategorieDto(business.modifier(ancienneCategorie, nouvelleCategorie));
+  public Categorie modifier(Categorie ancienneCategorie, Categorie nouvelleCategorie) {
+    nouvelleCategorie.setId(ancienneCategorie.getId());
+    CategorieJpaEntity categorieJpaEntity = mapperEntities.to(nouvelleCategorie);
+    CategorieJpaEntity resultat = repository.save(categorieJpaEntity);
+    return mapperBusiness.to(resultat);
   }
 
   @Override
-  public CategorieDto editer(String id) {
-    CategorieBusiness business = new CategorieBusiness(categorieJpaRepository, categorieMapper);
-    return categorieMapper.toCategorieDto(business.editer(id));
+  public Categorie editer(String id) {
+    CategorieJpaEntity resultat = repository.findById(id).orElse(null);
+    return mapperBusiness.to(resultat);
+  }
+
+  @Override
+  public Categorie rechercherParNom(String nom) {
+    CategorieJpaEntity resultat = repository.findByNom(nom);
+    return mapperBusiness.to(resultat);
+  }
+
+  @Override
+  public Optional<Categorie> rechercherParIdentifiant(String id) {
+    Optional<CategorieJpaEntity> resultat = repository.findById(id);
+    if (resultat.isPresent()) return Optional.of(mapperBusiness.to(resultat.get()));
+
+    return Optional.empty();
   }
 }
