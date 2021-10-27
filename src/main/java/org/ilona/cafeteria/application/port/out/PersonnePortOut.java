@@ -1,14 +1,22 @@
 package org.ilona.cafeteria.application.port.out;
 
-import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
+import org.ilona.cafeteria.application.business.entities.Personne;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonnePortOut {
- PersonneDto enregistrer(PersonneDto personneDto);
- List<PersonneDto> toutes();
+  Personne enregistrer(Personne personne);
 
- void supprimer(PersonneDto personneDto);
+  List<Personne> lister();
 
- PersonneDto miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto);
+  void supprimer(String id);
+
+  Personne modifier(Personne anciennePersonne, Personne nouvellePersonne);
+
+  Personne editer(String id);
+
+  void supprimer(Personne personne);
+
+  Optional<Personne> rechercherParIdentifiant(String id);
 }
