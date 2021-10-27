@@ -1,51 +1,67 @@
 package org.ilona.cafeteria.adapter.out;
 
 import lombok.RequiredArgsConstructor;
-import org.ilona.cafeteria.application.port.in.entities.PersonneDto;
+import org.ilona.cafeteria.adapter.out.jpa.entities.PersonneJpaEntity;
+import org.ilona.cafeteria.adapter.out.jpa.repository.PersonneJpaRepository;
+import org.ilona.cafeteria.application.business.entities.Personne;
+import org.ilona.cafeteria.application.mapper.PersonneJpaEntityMapper;
+import org.ilona.cafeteria.application.mapper.PersonneMapper;
 import org.ilona.cafeteria.application.port.out.PersonnePortOut;
-import org.ilona.cafeteria.application.port.out.jpa.mapper.PersonneJpaEntityMapper;
-import org.ilona.cafeteria.application.port.out.jpa.repository.PersonneRepository;
-import org.ilona.cafeteria.domaine.business.PersonneBusiness;
-import org.ilona.cafeteria.domaine.entities.Personne;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class PersonneAdapterOut implements PersonnePortOut {
-    private final PersonneRepository personneRepository;
-    private final PersonneJpaEntityMapper personneMapper;
+  private final PersonneJpaRepository repository;
+  private final PersonneJpaEntityMapper mapperEntities;
+  private final PersonneMapper mapperBusiness;
 
-    @Override
-    public PersonneDto enregistrer(PersonneDto personneDto){
-        PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
-        Personne personne = personneMapper.toPersonne(personneDto);
-        personne = business.enregistrer(personne);
-        return personneMapper.toPersonneDto(personne);
-    }
+  @Override
+  public Personne enregistrer(Personne personne) {
+    PersonneJpaEntity personneJpaEntity = mapperEntities.to(personne);
+    PersonneJpaEntity resultat = repository.save(personneJpaEntity);
+    return mapperBusiness.to(resultat);
+  }
 
-    @Override
-    @Transactional
-    public List<PersonneDto> toutes() {
-        PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
-        return personneMapper.withBusinesstoCollectionDePersonneDto(business.toutes());
-    }
+  @Override
+  @Transactional
+  public List<Personne> lister() {
+    List<PersonneJpaEntity> all = repository.findAll();
+    return mapperBusiness.toCollection(all);
+  }
 
-    @Override
-    public void supprimer(PersonneDto personneDto) {
-        PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
-        Personne personne = personneMapper.toPersonne(personneDto);
-        business.supprimer(personne);
-    }
+  @Override
+  public void supprimer(String id) {
+    PersonneJpaEntity resultat = repository.findById(id).orElse(null);
+    repository.delete(resultat);
+  }
 
-    @Override
-    public PersonneDto miseAjour(PersonneDto anciennePersonneDto, PersonneDto nouvellePersonneDto) {
-        PersonneBusiness business = new PersonneBusiness(personneRepository,personneMapper);
-        Personne anciennePersonne= personneMapper.toPersonne(anciennePersonneDto);
-        Personne nouvellePersonne= personneMapper.toPersonne(nouvellePersonneDto);
-        return personneMapper.toPersonneDto(business.miseAjour(anciennePersonne,nouvellePersonne));
-    }
+  @Override
+  public void supprimer(Personne personne) {
+    PersonneJpaEntity categorieJpaEntity = mapperEntities.to(personne);
+    repository.delete(categorieJpaEntity);
+  }
 
+  @Override
+  public Optional<Personne> rechercherParIdentifiant(String id) {
+    return Optional.empty();
+  }
+
+  @Override
+  public Personne modifier(Personne anciennePersonne, Personne nouvellePersonne) {
+    nouvellePersonne.setId(anciennePersonne.getId());
+    PersonneJpaEntity personneJpaEntity = mapperEntities.to(nouvellePersonne);
+    PersonneJpaEntity resultat = repository.save(personneJpaEntity);
+    return mapperBusiness.to(resultat);
+  }
+
+  @Override
+  public Personne editer(String id) {
+    PersonneJpaEntity resultat = repository.findById(id).orElse(null);
+    return mapperBusiness.to(resultat);
+  }
 }
