@@ -54,4 +54,11 @@ public class CategorieBusinessImpl implements CategorieBusiness {
     Optional<Categorie> byId = portOut.rechercherParIdentifiant(id);
     return byId.orElse(null);
   }
+
+  @Override
+  public Categorie supprimer(String id) {
+    Optional<Categorie> byId = portOut.rechercherParIdentifiant(id);
+
+    return byId.orElse(null);
+  }
 }

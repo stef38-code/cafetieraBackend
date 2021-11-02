@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
@@ -24,7 +25,7 @@ public class PersonneControler {
 
   @PostMapping
   @CacheEvict(value = "personnes", allEntries = true)
-  public ResponseEntity<PersonneDto> enregistrer(@RequestBody PersonneDto personneDto) {
+  public ResponseEntity<PersonneDto> enregistrer(@RequestBody @Valid PersonneDto personneDto) {
     return new ResponseEntity<>(personnePortIn.enregistrer(personneDto), HttpStatus.OK);
   }
 

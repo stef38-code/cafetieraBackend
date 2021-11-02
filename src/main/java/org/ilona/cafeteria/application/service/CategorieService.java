@@ -9,8 +9,10 @@ import org.ilona.cafeteria.application.mapper.CategorieDtoMapper;
 import org.ilona.cafeteria.application.mapper.CategorieMapper;
 import org.ilona.cafeteria.application.port.in.CategoriePortIn;
 import org.ilona.cafeteria.application.port.out.CategoriePortOut;
+import org.ilona.cafeteria.application.port.out.PersonnePortOut;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class CategorieService implements CategoriePortIn {
   private final CategoriePortOut portOut;
   private final CategorieMapper mapper;
   private final CategorieDtoMapper mapperDto;
+  private final PersonnePortOut personnePortOut;
 
   @Override
   public CategorieDto enregistrer(CategorieDto categorieDto) {
@@ -49,7 +52,17 @@ public class CategorieService implements CategoriePortIn {
   @Override
   public void supprimer(String id) {
     CategorieBusiness business = new CategorieBusinessImpl(portOut);
-    Categorie categorie = business.editer(id);
+    Categorie categorie = business.supprimer(id);
+    categorie
+        .getPersonnes()
+        .forEach(
+            personne -> {
+              // mise à jour de la categorie du personne
+              personne.setCategorie(null);
+              personnePortOut.enregistrer(personne);
+            });
+    // Suppression de la liaison avec les personnes dans la categorie
+    categorie.setPersonnes(Collections.emptyList());
     business.supprimer(categorie);
   }
 
