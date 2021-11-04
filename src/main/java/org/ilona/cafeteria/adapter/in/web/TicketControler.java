@@ -14,49 +14,60 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping(
-    value = "ticket",
-    produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
+        value = "ticket",
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
 public class TicketControler {
-  private final TicketPortIn ticketPortIn;
+    private final TicketPortIn ticketPortIn;
 
-  @GetMapping("/{id}")
-  public ResponseEntity<TicketDto> get(@PathVariable final String id) {
-    TicketDto ticketDto = ticketPortIn.editer(id);
-    TicketResource.addLinkByRef(ticketDto);
-    return ResponseEntity.ok(ticketDto);
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<TicketDto> get(@PathVariable final String id) {
+        TicketDto ticketDto = ticketPortIn.editer(id);
+        TicketResource.addLinkByRef(ticketDto);
+        return ResponseEntity.ok(ticketDto);
+    }
 
-  @PostMapping
-  public ResponseEntity<TicketDto> ajoutUnTicket(TicketDto ticketDto) {
-    return new ResponseEntity<>(ticketPortIn.enregistrer(ticketDto), HttpStatus.OK);
-  }
+    @PostMapping
+    public ResponseEntity<TicketDto> ajoutUnTicket(TicketDto ticketDto) {
+        return new ResponseEntity<>(ticketPortIn.enregistrer(ticketDto), HttpStatus.OK);
+    }
 
-  @GetMapping
-  public ResponseEntity<Collection<TicketDto>> lister() {
-    return new ResponseEntity<>(ticketPortIn.lister(), HttpStatus.OK);
-  }
+    @PostMapping("/{id}/affecter/idPersonne")
+    public ResponseEntity<Void> affecterUnTicket(@PathVariable String id, String idPersonne) {
+        //ticketPortIn.affecter(id,idpersonne);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-  @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  @CrossOrigin(origins = "http://localhost:4200")
-  public ResponseEntity<Void> supprimer(@PathVariable final String id) {
-    ticketPortIn.supprimer(id);
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
+    @GetMapping
+    public ResponseEntity<Collection<TicketDto>> lister() {
+        return new ResponseEntity<>(ticketPortIn.lister(), HttpStatus.OK);
+    }
 
-  @DeleteMapping("/liberer/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  @CrossOrigin(origins = "http://localhost:4200")
-  public ResponseEntity<Void> liberer(@PathVariable final String id) {
-    ticketPortIn.liberer(id);
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
+    @GetMapping("/nonAffectes")
+    public ResponseEntity<Collection<TicketDto>> nonAffectes() {
+        return new ResponseEntity<>(ticketPortIn.nonAffectes(), HttpStatus.OK);
+    }
 
-  @PutMapping
-  @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<Void> modifier(@RequestBody TicketEntityController entityController) {
-    ticketPortIn.modifier(entityController.getAncienTicket(), entityController.getNouveauTicket());
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<Void> supprimer(@PathVariable final String id) {
+        ticketPortIn.supprimer(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/liberer/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<Void> liberer(@PathVariable final String id) {
+        ticketPortIn.liberer(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Void> modifier(@RequestBody TicketEntityController entityController) {
+        ticketPortIn.modifier(entityController.getAncienTicket(), entityController.getNouveauTicket());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

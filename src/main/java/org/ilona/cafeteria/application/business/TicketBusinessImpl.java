@@ -63,10 +63,14 @@ public class TicketBusinessImpl implements TicketBusiness {
     Categorie ticket = portOut.rechercherParId(ticket.getId());
     return portOut.getId();
   }*/
-
   @Override
   public Ticket editer(String id) {
     Optional<Ticket> byId = portOut.rechercherParIdentifiant(id);
     return byId.orElse(null);
+  }
+
+  @Override
+  public List<Ticket> nonAffectes() {
+    return portOut.rechercheDesTicketsNonAffectes();
   }
 }

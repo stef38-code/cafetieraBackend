@@ -5,15 +5,17 @@ import org.ilona.cafeteria.adapter.in.web.entities.TicketDto;
 import java.util.List;
 
 public interface TicketPortIn {
-  TicketDto enregistrer(TicketDto ticketDto);
+    TicketDto enregistrer(TicketDto ticketDto);
 
-  List<TicketDto> lister();
+    List<TicketDto> lister();
 
-  TicketDto editer(String id);
+    TicketDto editer(String id);
 
-  void supprimer(String id);
+    void supprimer(String id);
 
-  void liberer(String id);
+    void liberer(String id);
 
-  void modifier(TicketDto ancienTicket, TicketDto nouveauTicket);
+    void modifier(TicketDto ancienTicket, TicketDto nouveauTicket);
+
+    List<TicketDto> nonAffectes();
 }

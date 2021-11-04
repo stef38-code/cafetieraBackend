@@ -11,6 +11,8 @@ public interface PersonneBusiness {
 
   void supprimer(Personne personne);
 
+  void supprimer(String id);
+
   Personne modifier(Personne anciennePersonne, Personne nouvellePersonne);
 
   Personne editer(String id);

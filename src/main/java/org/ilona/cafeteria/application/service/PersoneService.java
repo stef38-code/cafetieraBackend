@@ -11,7 +11,6 @@ import org.ilona.cafeteria.application.port.in.PersonnePortIn;
 import org.ilona.cafeteria.application.port.out.PersonnePortOut;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -42,12 +41,7 @@ public class PersoneService implements PersonnePortIn {
   @Override
   public void supprimer(final String id) {
     PersonneBusiness business = new PersonneBusinessImpl(portOut);
-    Personne personne = business.editer(id);
-    personne.setCategorie(null); // supprime la liaison avec la categorie
-    personne.setTickets(Collections.EMPTY_LIST); // supprime la liason avec tous les tickets
-    business.enregistrer(personne); // sauvegarde de l'individus sans rien
-
-    business.supprimer(personne);
+    business.supprimer(id);
   }
 
   @Override
