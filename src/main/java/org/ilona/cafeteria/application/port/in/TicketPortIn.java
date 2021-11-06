@@ -18,4 +18,6 @@ public interface TicketPortIn {
     void modifier(TicketDto ancienTicket, TicketDto nouveauTicket);
 
     List<TicketDto> nonAffectes();
+
+    void affecter(String id, String idPersonne);
 }

@@ -1,6 +1,7 @@
 package org.ilona.cafeteria.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.ilona.cafeteria.adapter.in.web.entities.TicketDto;
 import org.ilona.cafeteria.adapter.in.web.entities.TicketEntityController;
 import org.ilona.cafeteria.adapter.in.web.entities.TicketResource;
@@ -17,6 +18,7 @@ import java.util.Collection;
         value = "ticket",
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
+@Slf4j
 public class TicketControler {
     private final TicketPortIn ticketPortIn;
 
@@ -32,9 +34,10 @@ public class TicketControler {
         return new ResponseEntity<>(ticketPortIn.enregistrer(ticketDto), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/affecter/idPersonne")
-    public ResponseEntity<Void> affecterUnTicket(@PathVariable String id, String idPersonne) {
-        //ticketPortIn.affecter(id,idpersonne);
+    @PostMapping("/{id}/affecter/{idPersonne}")
+    public ResponseEntity<Void> affecterUnTicket(@PathVariable String id, @PathVariable String idPersonne) {
+        //  log.info("=======ticket[{}]=========idPerson[{}]===================",id,idPersonne);
+        ticketPortIn.affecter(id, idPersonne);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

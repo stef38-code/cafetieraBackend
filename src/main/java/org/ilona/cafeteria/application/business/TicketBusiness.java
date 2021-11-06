@@ -20,4 +20,6 @@ public interface TicketBusiness {
   Ticket editer(String id);
 
   List<Ticket> nonAffectes();
+
+  void affecter(String id, String idPersonne);
 }
