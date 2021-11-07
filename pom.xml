@@ -11,6 +11,8 @@
 	<groupId>org.ilona</groupId>
 	<artifactId>cafetier</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
 	<name>cafetiera</name>
 	<description>backend cafeteria</description>
 	<properties>
@@ -23,6 +25,8 @@
 		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
 		<jacoco.version>0.8.6</jacoco.version>
 		<cucumber.version>6.10.3</cucumber.version>
+		<!-- -->
+		<start-class>org.ilona.cafeteria.CafetierApplication</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -32,6 +36,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!--<scope>provided</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -143,6 +158,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>cafetierBackEnd</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

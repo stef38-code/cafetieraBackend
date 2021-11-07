@@ -51,13 +51,16 @@ public class TicketService implements TicketPortIn {
     @Override
     public void supprimer(String id) {
         TicketBusinessImpl business = new TicketBusinessImpl(portOut, portOutPersonne);
-        Ticket categorie = business.editer(id);
-        business.supprimer(categorie);
+        Ticket ticket = business.editer(id);
+        business.supprimer(ticket);
     }
 
     @Override
     public void liberer(String id) {
-        log.warn("//Todo a faire");
+        TicketBusinessImpl business = new TicketBusinessImpl(portOut, portOutPersonne);
+        Ticket ticket = business.editer(id);
+        ticket.setPersonne(null);
+        business.enregistrer(ticket);
     }
 
     @Override

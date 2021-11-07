@@ -36,7 +36,6 @@ public class TicketControler {
 
     @PostMapping("/{id}/affecter/{idPersonne}")
     public ResponseEntity<Void> affecterUnTicket(@PathVariable String id, @PathVariable String idPersonne) {
-        //  log.info("=======ticket[{}]=========idPerson[{}]===================",id,idPersonne);
         ticketPortIn.affecter(id, idPersonne);
         return new ResponseEntity<>(HttpStatus.OK);
     }
