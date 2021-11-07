@@ -23,4 +23,6 @@ public interface TicketPortOut {
   Ticket rechercherParId(String id);
 
   Optional<Ticket> rechercherParIdentifiant(String id);
+
+  List<Ticket> rechercheDesTicketsNonAffectes();
 }

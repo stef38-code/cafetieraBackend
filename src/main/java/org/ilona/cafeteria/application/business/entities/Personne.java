@@ -9,6 +9,7 @@ public class Personne {
   private String prenom;
   private List<Ticket> tickets;
   private Categorie categorie;
+  private int nombreTicket;
 
   public Personne() {}
 
@@ -18,12 +19,35 @@ public class Personne {
       String prenom,
       String numero,
       List<Ticket> tickets,
-      Categorie categorie) {
+      Categorie categorie,
+      int nombreTicket) {
     this.id = id;
     this.nom = nom;
     this.prenom = prenom;
     this.tickets = tickets;
     this.categorie = categorie;
+    this.nombreTicket = nombreTicket;
+  }
+
+  public int getNombreTicket() {
+    return nombreTicket;
+  }
+
+  public void setNombreTicket(int nombreTicket) {
+    this.nombreTicket = nombreTicket;
+  }
+
+  @Override
+  public String toString() {
+    final StringBuffer sb = new StringBuffer("Personne{");
+    sb.append("id='").append(id).append('\'');
+    sb.append(", nom='").append(nom).append('\'');
+    sb.append(", prenom='").append(prenom).append('\'');
+    sb.append(", tickets=").append(tickets);
+    sb.append(", categorie=").append(categorie);
+    sb.append(", nombreTicket=").append(nombreTicket);
+    sb.append('}');
+    return sb.toString();
   }
 
   public String getId() {
@@ -64,17 +88,5 @@ public class Personne {
 
   public void setCategorie(Categorie categorie) {
     this.categorie = categorie;
-  }
-
-  @Override
-  public String toString() {
-    final StringBuffer sb = new StringBuffer("Personne{");
-    sb.append("id='").append(id).append('\'');
-    sb.append(", nom='").append(nom).append('\'');
-    sb.append(", prenom='").append(prenom).append('\'');
-    sb.append(", tickets=").append(tickets);
-    sb.append(", categorie=").append(categorie);
-    sb.append('}');
-    return sb.toString();
   }
 }

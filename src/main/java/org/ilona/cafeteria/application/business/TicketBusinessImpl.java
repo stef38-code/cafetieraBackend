@@ -1,6 +1,8 @@
 package org.ilona.cafeteria.application.business;
 
+import org.ilona.cafeteria.application.business.entities.Personne;
 import org.ilona.cafeteria.application.business.entities.Ticket;
+import org.ilona.cafeteria.application.port.out.PersonnePortOut;
 import org.ilona.cafeteria.application.port.out.TicketPortOut;
 
 import javax.transaction.Transactional;
@@ -9,9 +11,11 @@ import java.util.Optional;
 
 public class TicketBusinessImpl implements TicketBusiness {
   private final TicketPortOut portOut;
+  private final PersonnePortOut portOutPersonne;
 
-  public TicketBusinessImpl(TicketPortOut portOut) {
+  public TicketBusinessImpl(TicketPortOut portOut, PersonnePortOut portOutPersonne) {
     this.portOut = portOut;
+    this.portOutPersonne = portOutPersonne;
   }
 
   @Override
@@ -63,10 +67,21 @@ public class TicketBusinessImpl implements TicketBusiness {
     Categorie ticket = portOut.rechercherParId(ticket.getId());
     return portOut.getId();
   }*/
-
   @Override
   public Ticket editer(String id) {
     Optional<Ticket> byId = portOut.rechercherParIdentifiant(id);
     return byId.orElse(null);
+  }
+
+  @Override
+  public List<Ticket> nonAffectes() {
+    return portOut.rechercheDesTicketsNonAffectes();
+  }
+
+  public void affecter(String id, String idPersonne) {
+    Personne personne = portOutPersonne.editer(idPersonne);
+    Ticket ticket = portOut.editer(id);
+    ticket.setPersonne(personne);
+    portOut.enregistrer(ticket);
   }
 }

@@ -16,4 +16,6 @@ public interface CategorieBusiness {
   String getId(Categorie categorie);
 
   Categorie editer(String id);
+
+  Categorie supprimer(String id);
 }

@@ -18,4 +18,8 @@ public interface TicketBusiness {
   String getId(Ticket ticket);
 
   Ticket editer(String id);
+
+  List<Ticket> nonAffectes();
+
+  void affecter(String id, String idPersonne);
 }

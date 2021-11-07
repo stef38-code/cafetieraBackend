@@ -18,6 +18,10 @@ import java.util.List;
 public interface PersonneMapper {
   Personne to(PersonneDto personneDto);
 
+  @Mapping(
+      target = "nombreTicket",
+      source = "tickets",
+      qualifiedByName = "compteLesTicketsEntities")
   Personne to(PersonneJpaEntity personneJpaEntity);
 
   List<Personne> toCollection(List<PersonneJpaEntity> PersonneJpaEntities);

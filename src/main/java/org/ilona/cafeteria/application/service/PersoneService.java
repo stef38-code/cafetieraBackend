@@ -41,8 +41,7 @@ public class PersoneService implements PersonnePortIn {
   @Override
   public void supprimer(final String id) {
     PersonneBusiness business = new PersonneBusinessImpl(portOut);
-    Personne personne = business.editer(id);
-    business.supprimer(personne);
+    business.supprimer(id);
   }
 
   @Override

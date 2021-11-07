@@ -1,12 +1,11 @@
 package org.ilona.cafeteria.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.ilona.cafeteria.adapter.in.web.entities.CategorieDto;
 import org.ilona.cafeteria.adapter.in.web.entities.CategorieEntityController;
 import org.ilona.cafeteria.adapter.in.web.entities.CategorieResource;
 import org.ilona.cafeteria.application.port.in.CategoriePortIn;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +18,21 @@ import java.util.Collection;
     value = "categories",
     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
+@Slf4j
 public class CategorieControler {
   private final CategoriePortIn categoriePortIn;
 
   @PostMapping
-  @CacheEvict(value = "categories", allEntries = true)
+//  @CacheEvict(value = "categories", allEntries = true)
   public ResponseEntity<CategorieDto> enregistrer(@RequestBody CategorieDto categorieDto) {
+
     return new ResponseEntity<>(categoriePortIn.enregistrer(categorieDto), HttpStatus.OK);
   }
 
   @GetMapping
-  @Cacheable("categories")
+//  @Cacheable("categories")
   public ResponseEntity<Collection<CategorieDto>> lister() {
+    log.info("@@@@@@@@@@@@@@@@@@ Liste categorie");
     return new ResponseEntity<>(categoriePortIn.lister(), HttpStatus.OK);
   }
 
@@ -43,7 +45,7 @@ public class CategorieControler {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  @CacheEvict(value = "categories", allEntries = true)
+//  @CacheEvict(value = "categories", allEntries = true)
   @CrossOrigin(origins = "http://localhost:4200")
   public ResponseEntity<Void> supprimer(@PathVariable final String id) {
     categoriePortIn.supprimer(id);
@@ -52,7 +54,7 @@ public class CategorieControler {
 
   @PutMapping
   @ResponseStatus(HttpStatus.OK)
-  @CacheEvict(value = "personnes", allEntries = true)
+//  @CacheEvict(value = "categories", allEntries = true)
   public ResponseEntity<Void> modifier(@RequestBody CategorieEntityController entityController) {
     categoriePortIn.modifier(
         entityController.getAncienneCategorie(), entityController.getNouvelleCategorie());

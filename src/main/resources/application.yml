@@ -20,7 +20,9 @@ spring:
     url: jdbc:h2:./cafeteria;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
     username: postgres
     password: J1cpt@adm
-
+  hateoas:
+    #pour eviter d'avoir une différence entre une collection avec link et une entite avec _link
+    use-hal-as-default-json-media-type: false
   # JPA properties
   jpa:
     hibernate:
