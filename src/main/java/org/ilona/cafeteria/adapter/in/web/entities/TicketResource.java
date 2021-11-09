@@ -1,7 +1,7 @@
 package org.ilona.cafeteria.adapter.in.web.entities;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.ilona.cafeteria.adapter.in.web.TicketControler;
+import org.ilona.cafeteria.adapter.in.web.TicketControlerImpl;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
@@ -14,24 +14,24 @@ public class TicketResource {
   private static void addLinks(TicketDto obj, String id) {
     if (Boolean.FALSE.equals(obj.hasLinks())) {
       Link link =
-              WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).get(id))
+              WebMvcLinkBuilder.linkTo(methodOn(TicketControlerImpl.class).editer(id))
                       .withSelfRel()
                       .withType("GET");
       obj.add(link);
       obj.add(
-              WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).liberer(id))
+              WebMvcLinkBuilder.linkTo(methodOn(TicketControlerImpl.class).liberer(id))
                       .withRel("liberer")
                       .withType("DELETE"));
       obj.add(
-              WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).affecterUnTicket(id, "@@"))
+              WebMvcLinkBuilder.linkTo(methodOn(TicketControlerImpl.class).affecter(id, "@@"))
                       .withRel("affecter")
                       .withType("POST"));
       obj.add(
-              WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).supprimer(id))
+              WebMvcLinkBuilder.linkTo(methodOn(TicketControlerImpl.class).supprimer(id))
                       .withRel("supprimer")
                       .withType("DELETE"));
       obj.add(
-              WebMvcLinkBuilder.linkTo(methodOn(TicketControler.class).lister())
+              WebMvcLinkBuilder.linkTo(methodOn(TicketControlerImpl.class).lister())
                       .withRel("tickets")
                       .withType("GET"));
     }

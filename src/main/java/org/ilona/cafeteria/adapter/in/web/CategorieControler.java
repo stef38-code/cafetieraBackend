@@ -15,11 +15,11 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping(
-    value = "categories",
-    produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
+        value = "categories",
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
 @Slf4j
-public class CategorieControler {
+public class CategorieControler extends Controler<CategorieDto, CategorieEntityController> {
   private final CategoriePortIn categoriePortIn;
 
   @PostMapping
@@ -32,7 +32,6 @@ public class CategorieControler {
   @GetMapping
 //  @Cacheable("categories")
   public ResponseEntity<Collection<CategorieDto>> lister() {
-    log.info("@@@@@@@@@@@@@@@@@@ Liste categorie");
     return new ResponseEntity<>(categoriePortIn.lister(), HttpStatus.OK);
   }
 

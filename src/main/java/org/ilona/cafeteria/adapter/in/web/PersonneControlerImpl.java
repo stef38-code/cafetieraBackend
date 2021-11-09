@@ -17,26 +17,30 @@ import java.util.Collection;
         value = "personne",
         produces = {MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
-public class PersonneControler {
+public class PersonneControlerImpl extends Controler<PersonneDto, PersonneEntityController> {
   private final PersonnePortIn personnePortIn;
 
+  @Override
   @PostMapping
   // @CacheEvict(value = "personnes", allEntries = true)
   public ResponseEntity<PersonneDto> enregistrer(@RequestBody @Valid PersonneDto personneDto) {
     return new ResponseEntity<>(personnePortIn.enregistrer(personneDto), HttpStatus.OK);
   }
 
+  @Override
   @GetMapping
 //  @Cacheable("personnes")
   public ResponseEntity<Collection<PersonneDto>> lister() {
     return new ResponseEntity<>(personnePortIn.lister(), HttpStatus.OK);
   }
 
+  @Override
   @GetMapping("/{id}")
   public ResponseEntity<PersonneDto> editer(@PathVariable final String id) {
     return ResponseEntity.ok(personnePortIn.editer(id));
   }
 
+  @Override
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
 //  @CacheEvict(value = "personnes", allEntries = true)
@@ -46,12 +50,13 @@ public class PersonneControler {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  @Override
   @PutMapping
   @ResponseStatus(HttpStatus.OK)
 //  @CacheEvict(value = "personnes", allEntries = true)
   public ResponseEntity<Void> modifier(@RequestBody PersonneEntityController entityController) {
     personnePortIn.modifier(
-        entityController.getAnciennePersonne(), entityController.getNouvellePersonne());
+            entityController.getAnciennePersonne(), entityController.getNouvellePersonne());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }

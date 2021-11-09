@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ilona.cafeteria.adapter.in.web.entities.TicketDto;
 import org.ilona.cafeteria.adapter.in.web.entities.TicketEntityController;
-import org.ilona.cafeteria.adapter.in.web.entities.TicketResource;
 import org.ilona.cafeteria.application.port.in.TicketPortIn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,23 +18,25 @@ import java.util.Collection;
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
 @Slf4j
-public class TicketControler {
+public class TicketControlerImpl extends ControlerTicket<TicketDto, TicketEntityController> {
     private final TicketPortIn ticketPortIn;
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketDto> get(@PathVariable final String id) {
+    public ResponseEntity<TicketDto> editer(@PathVariable final String id) {
         TicketDto ticketDto = ticketPortIn.editer(id);
-        TicketResource.addLinkByRef(ticketDto);
+        /*        TicketResource.addLinkByRef(ticketDto);*/
         return ResponseEntity.ok(ticketDto);
     }
 
     @PostMapping
-    public ResponseEntity<TicketDto> ajoutUnTicket(TicketDto ticketDto) {
-        return new ResponseEntity<>(ticketPortIn.enregistrer(ticketDto), HttpStatus.OK);
+    public ResponseEntity<TicketDto> enregistrer(@RequestBody TicketDto ticketDto) {
+        TicketDto dto = ticketPortIn.enregistrer(ticketDto);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+
     @PostMapping("/{id}/affecter/{idPersonne}")
-    public ResponseEntity<Void> affecterUnTicket(@PathVariable String id, @PathVariable String idPersonne) {
+    public ResponseEntity<Void> affecter(@PathVariable String id, @PathVariable String idPersonne) {
         ticketPortIn.affecter(id, idPersonne);
         return new ResponseEntity<>(HttpStatus.OK);
     }
