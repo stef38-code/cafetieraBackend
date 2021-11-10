@@ -46,6 +46,11 @@ public class TicketControlerImpl extends ControlerTicket<TicketDto, TicketEntity
         return new ResponseEntity<>(ticketPortIn.lister(), HttpStatus.OK);
     }
 
+    @GetMapping("/personne/{id}")
+    public ResponseEntity<Collection<TicketDto>> personne(@PathVariable final String id) {
+        return new ResponseEntity<>(ticketPortIn.personne(id), HttpStatus.OK);
+    }
+
     @GetMapping("/nonAffectes")
     public ResponseEntity<Collection<TicketDto>> nonAffectes() {
         return new ResponseEntity<>(ticketPortIn.nonAffectes(), HttpStatus.OK);

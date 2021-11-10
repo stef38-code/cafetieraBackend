@@ -83,4 +83,11 @@ public class TicketService implements TicketPortIn {
         TicketBusinessImpl business = new TicketBusinessImpl(portOut, portOutPersonne);
         business.affecter(id, idPersonne);
     }
+
+    @Override
+    public List<TicketDto> personne(String id) {
+        TicketBusinessImpl business = new TicketBusinessImpl(portOut, portOutPersonne);
+        List<Ticket> ticketList = business.personne(id);
+        return mapperDto.toCollection(ticketList);
+    }
 }

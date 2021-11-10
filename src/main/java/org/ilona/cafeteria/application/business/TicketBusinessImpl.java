@@ -84,4 +84,9 @@ public class TicketBusinessImpl implements TicketBusiness {
     ticket.setPersonne(personne);
     portOut.enregistrer(ticket);
   }
+
+  @Override
+  public List<Ticket> personne(String id) {
+    return portOut.rechercheDesTicketsUnePersonne(id);
+  }
 }

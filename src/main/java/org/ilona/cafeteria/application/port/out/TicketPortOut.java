@@ -25,4 +25,6 @@ public interface TicketPortOut {
   Optional<Ticket> rechercherParIdentifiant(String id);
 
   List<Ticket> rechercheDesTicketsNonAffectes();
+
+  List<Ticket> rechercheDesTicketsUnePersonne(String idPersonne);
 }

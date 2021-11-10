@@ -20,4 +20,6 @@ public interface TicketPortIn {
     List<TicketDto> nonAffectes();
 
     void affecter(String id, String idPersonne);
+
+    List<TicketDto> personne(String id);
 }

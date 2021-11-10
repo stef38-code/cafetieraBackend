@@ -1,7 +1,9 @@
 package org.ilona.cafeteria.adapter.out;
 
 import lombok.RequiredArgsConstructor;
+import org.ilona.cafeteria.adapter.out.jpa.entities.PersonneJpaEntity;
 import org.ilona.cafeteria.adapter.out.jpa.entities.TicketJpaEntity;
+import org.ilona.cafeteria.adapter.out.jpa.repository.PersonneJpaRepository;
 import org.ilona.cafeteria.adapter.out.jpa.repository.TicketRepository;
 import org.ilona.cafeteria.application.business.entities.Ticket;
 import org.ilona.cafeteria.application.mapper.TicketJpaEntityMapper;
@@ -9,6 +11,7 @@ import org.ilona.cafeteria.application.mapper.TicketMapper;
 import org.ilona.cafeteria.application.port.out.TicketPortOut;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,7 @@ import java.util.Optional;
 @Component
 public class TicketAdapterOut implements TicketPortOut {
     private final TicketRepository repository;
+    private final PersonneJpaRepository PersonneRepository;
     private final TicketJpaEntityMapper mapperEntities;
     private final TicketMapper mapperBusiness;
 
@@ -83,5 +87,15 @@ public class TicketAdapterOut implements TicketPortOut {
     public List<Ticket> rechercheDesTicketsNonAffectes() {
         List<TicketJpaEntity> ticketJpaEntities = repository.findByPersonneIsNull();
         return mapperBusiness.toCollection(ticketJpaEntities);
+    }
+
+    @Override
+    public List<Ticket> rechercheDesTicketsUnePersonne(String idPersonne) {
+        Optional<PersonneJpaEntity> byId = PersonneRepository.findById(idPersonne);
+        if (byId.isPresent()) {
+            List<TicketJpaEntity> ticketJpaEntities = repository.findByPersonneIs(byId.get());
+            return mapperBusiness.toCollection(ticketJpaEntities);
+        }
+        return Collections.emptyList();
     }
 }

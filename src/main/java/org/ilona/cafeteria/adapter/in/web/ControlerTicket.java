@@ -11,4 +11,6 @@ public abstract class ControlerTicket<O, C> extends Controler<O, C> {
     public abstract ResponseEntity<Void> affecter(@PathVariable String id, @PathVariable String idPersonne);
 
     public abstract ResponseEntity<Void> liberer(@PathVariable final String id);
+
+    public abstract ResponseEntity<Collection<O>> personne(@PathVariable final String id);
 }

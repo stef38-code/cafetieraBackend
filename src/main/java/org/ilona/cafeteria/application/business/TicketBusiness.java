@@ -22,4 +22,6 @@ public interface TicketBusiness {
   List<Ticket> nonAffectes();
 
   void affecter(String id, String idPersonne);
+
+  List<Ticket> personne(String id);
 }
