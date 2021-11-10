@@ -58,7 +58,7 @@ public class TicketControlerImpl extends ControlerTicket<TicketDto, TicketEntity
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8888"})
     public ResponseEntity<Void> supprimer(@PathVariable final String id) {
         ticketPortIn.supprimer(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -66,7 +66,7 @@ public class TicketControlerImpl extends ControlerTicket<TicketDto, TicketEntity
 
     @DeleteMapping("/liberer/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8888"})
     public ResponseEntity<Void> liberer(@PathVariable final String id) {
         ticketPortIn.liberer(id);
         return new ResponseEntity<>(HttpStatus.OK);

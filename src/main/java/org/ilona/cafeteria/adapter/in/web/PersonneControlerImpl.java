@@ -44,7 +44,7 @@ public class PersonneControlerImpl extends Controler<PersonneDto, PersonneEntity
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
 //  @CacheEvict(value = "personnes", allEntries = true)
-  @CrossOrigin(origins = "http://localhost:4200")
+  @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8888"})
   public ResponseEntity<Void> supprimer(@PathVariable final String id) {
     personnePortIn.supprimer(id);
     return new ResponseEntity<>(HttpStatus.OK);

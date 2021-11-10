@@ -45,7 +45,7 @@ public class CategorieControler extends Controler<CategorieDto, CategorieEntityC
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
 //  @CacheEvict(value = "categories", allEntries = true)
-  @CrossOrigin(origins = "http://localhost:4200")
+  @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8888"})
   public ResponseEntity<Void> supprimer(@PathVariable final String id) {
     categoriePortIn.supprimer(id);
     return new ResponseEntity<>(HttpStatus.OK);
