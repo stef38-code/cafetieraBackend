@@ -48,4 +48,5 @@ logging:
 # Server configuration
 #----------------------------
 server:
-  port: 8080 #set your port
+  port: 8081 #set your port
+
